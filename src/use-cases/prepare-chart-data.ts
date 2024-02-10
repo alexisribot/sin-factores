@@ -16,14 +16,9 @@ export const prepareChartData = (trainer: Trainer): SpendingShinyData[] => {
         if (!months.has(monthYear)) {
             months.set(monthYear, {
                 month: monthYear,
-                spent: 0,
+                spent: spending.amount,
                 shinies: 0,
             });
-        }
-
-        const monthData = months.get(monthYear);
-        if (monthData) {
-            monthData.spent += spending.amount;
         }
     });
 
