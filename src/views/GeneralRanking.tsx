@@ -12,7 +12,6 @@ const TrainerRanking: React.FC = () => {
     const [monthYearOptions, setMonthYearOptions] = useState<{ label: string; value: string }[]>([]);
     const [loading, setLoading] = useState(false);
 
-    console.log({ monthYearOptions });
     useEffect(() => {
         const loadTrainers = async () => {
             setLoading(true);

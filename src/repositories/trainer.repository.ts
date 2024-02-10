@@ -15,7 +15,7 @@ export const trainersRepository = {
                 name: trainerData.name,
                 pokemonShiniesCount: 0,
                 pokemonShiniesNames: [],
-                lastShinyCaughtAt: undefined,
+                lastShinyCaughtAt: null,
             };
 
             const pokemonShiniesRef = collection(db, `trainers/${trainerDoc.id}/pokemonShinies`);
@@ -36,7 +36,9 @@ export const trainersRepository = {
                 trainer.pokemonShiniesNames.push(shinyData.name);
 
                 const caughtAt = shinyData.caughtAt.toDate();
-                trainer.lastShinyCaughtAt = caughtAt;
+                if (!trainer.lastShinyCaughtAt || caughtAt > trainer.lastShinyCaughtAt) {
+                    trainer.lastShinyCaughtAt = caughtAt;
+                }
             }
 
             trainers.push(trainer);
