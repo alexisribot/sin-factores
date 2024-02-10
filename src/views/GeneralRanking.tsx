@@ -1,6 +1,7 @@
 // views/TrainerRanking.tsx
-import { Modal, Select, Spin, Table } from "antd";
+import { Select, Spin, Table } from "antd";
 import React, { useEffect, useState } from "react";
+import TrainerDetailsModal from "../components/TrainerModal";
 import { Trainer } from "../entities/trainer";
 import { fetchMonthYearOptions, fetchTrainers } from "../use-cases/fetch-trainers";
 
@@ -68,14 +69,19 @@ const TrainerRanking: React.FC = () => {
         },
         {
             title: "Shinies attrapés",
-            dataIndex: "pokemonShiniesCount",
+            dataIndex: "pokemonShinies",
             key: "pokemonShiniesCount",
+            render: (pokemonShinies: { name: string }[]) => pokemonShinies.length,
         },
         {
             title: "Liste des shinies",
-            dataIndex: "pokemonShiniesNames",
+            dataIndex: "pokemonShinies",
             key: "pokemonShiniesNames",
-            render: (shinies: string[]) => shinies.join(", "),
+            render: (
+                pokemonShinies: {
+                    name: string;
+                }[]
+            ) => pokemonShinies.map((shiny) => shiny.name).join(", "),
         },
         {
             title: "Dernier shiny capturé",
@@ -113,22 +119,7 @@ const TrainerRanking: React.FC = () => {
                     <Table columns={columns} dataSource={trainers} rowKey="id" pagination={false} />
                 </>
             )}
-            <Modal
-                title="Détails du dresseur"
-                open={isModalVisible}
-                onOk={() => setIsModalVisible(false)}
-                onCancel={() => setIsModalVisible(false)}
-                footer={null}
-            >
-                {selectedTrainer && (
-                    <div>
-                        <p>Nom: {selectedTrainer.name}</p>
-                        <p>Nombre de Shinies attrapés: {selectedTrainer.pokemonShiniesCount}</p>
-                        <p>Liste des Shinies: {selectedTrainer.pokemonShiniesNames?.join(", ")}</p>
-                        <p>Date du dernier Shiny capturé: {selectedTrainer.lastShinyCaughtAt?.toLocaleDateString()}</p>
-                    </div>
-                )}
-            </Modal>
+            <TrainerDetailsModal trainer={selectedTrainer} isVisible={isModalVisible} onClose={() => setIsModalVisible(false)} />
         </div>
     );
 };

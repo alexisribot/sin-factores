@@ -12,7 +12,15 @@ export interface FetchTrainersResponse {
 export const fetchTrainers = async (request: FetchTrainersRequest): Promise<FetchTrainersResponse> => {
     const trainersData = await trainersRepository.getTrainersData(request.month);
 
-    const sortedTrainersData = trainersData.sort((a, b) => (b.pokemonShiniesCount || 0) - (a.pokemonShiniesCount || 0));
+    const sortedTrainersData = trainersData.sort((a, b) => {
+        if (a.pokemonShinies.length > b.pokemonShinies.length) {
+            return -1;
+        } else if (a.pokemonShinies.length < b.pokemonShinies.length) {
+            return 1;
+        } else {
+            return a.name.localeCompare(b.name);
+        }
+    });
 
     return {
         trainers: sortedTrainersData,
