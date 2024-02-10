@@ -56,6 +56,12 @@ const TrainerRanking: React.FC = () => {
 
     const columns = [
         {
+            title: "Rang",
+            dataIndex: "rank",
+            key: "rank",
+            render: (_: string, __: Trainer, index: number) => index + 1,
+        },
+        {
             title: "Nom",
             dataIndex: "name",
             key: "name",
@@ -67,10 +73,16 @@ const TrainerRanking: React.FC = () => {
             key: "pokemonShiniesCount",
         },
         {
-            title: "Liste des Shinies",
+            title: "Liste des shinies",
             dataIndex: "pokemonShiniesNames",
             key: "pokemonShiniesNames",
             render: (shinies: string[]) => shinies.join(", "),
+        },
+        {
+            title: "Dernier shiny capturé",
+            dataIndex: "lastShinyCaughtAt",
+            key: "lastShinyCaughtAt",
+            render: (date?: Date) => date?.toLocaleDateString(),
         },
     ];
 

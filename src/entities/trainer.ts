@@ -3,5 +3,5 @@ export interface Trainer {
     name: string;
     pokemonShiniesCount: number;
     pokemonShiniesNames: string[];
-    lastShinyCaughtAt: Date;
+    lastShinyCaughtAt: Date | undefined;
 }
